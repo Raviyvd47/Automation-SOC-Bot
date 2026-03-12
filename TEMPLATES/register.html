@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC Bot | Agent Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(2, 12, 27, 0.85), rgba(2, 12, 27, 0.9)),
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .register-container {
+            width: 450px;
+            padding: 30px;
+            background: rgba(16, 33, 62, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            color: #00f5ff;
+            text-shadow: 0 0 15px #00f5ff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #8892b0;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+            flex: 1;
+        }
+
+        .full-width {
+            flex: none;
+            width: 100%;
+        }
+
+        label {
+            font-size: 11px;
+            color: #00f5ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(10, 25, 47, 0.7);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #00f5ff;
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            background: linear-gradient(90deg, #00f5ff, #0072ff);
+            color: white;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 245, 255, 0.4);
+        }
+
+        .footer-links {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #8892b0;
+        }
+
+        .footer-links a {
+            color: #00f5ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="logo">⚡ SOC BOT</div>
+        <div class="subtitle">Create secure account</div>
+        
+        <form action="/register" method="POST">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>First Name</label>
+                    <input type="text" name="firstname" placeholder="Ravi" required>
+                </div>
+                <div class="input-group">
+                    <label>Last Name</label>
+                    <input type="text" name="lastname" placeholder="Yadav" required>
+                </div>
+            </div>
+
+            <div class="input-group full-width">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="ravi107" required>
+            </div>
+
+            <div class="input-group full-width">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="agent@bbdu.ac.in" required>
+            </div>
+
+            <div class="input-group full-width">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="input-group full-width">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit">create account</button>
+        </form>
+
+        <div class="footer-links">
+            Already authorized? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+</body>
+</html>

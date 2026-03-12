@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC Bot | Secure Gateway</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon-blue: #00f5ff; --neon-red: #ff003c; --bg-dark: #020c1b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(2, 12, 27, 0.9), rgba(2, 12, 27, 0.95)),
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover; background-attachment: fixed; color: white; line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            padding: 20px 50px; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10, 25, 47, 0.9); border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 24px; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+
+        /* Hero Section */
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 48px; margin-bottom: 20px; color: var(--neon-blue); }
+        .hero p { max-width: 700px; font-size: 18px; color: #8892b0; margin-bottom: 30px; }
+
+        /* Tech Stack Grid (Section 7) */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 50px; }
+        .card { background: rgba(16, 33, 62, 0.8); padding: 30px; border-radius: 15px; border: 1px solid rgba(0, 245, 255, 0.1); text-align: center; }
+        .card h3 { color: var(--neon-blue); margin-bottom: 15px; font-family: 'Orbitron', sans-serif; }
+
+        /* Footer */
+        footer { text-align: center; padding: 40px; background: #010811; border-top: 1px solid rgba(0, 245, 255, 0.2); }
+        .btn-main { background: linear-gradient(90deg, #00f5ff, #0072ff); color: white; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; font-family: 'Orbitron', sans-serif; transition: 0.4s; }
+        .btn-main:hover { box-shadow: 0 0 20px var(--neon-blue); transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">⚡ SOC BOT</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#tech">Tech Stack</a>
+            <a href="login.html" style="color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 8px 20px; border-radius: 5px;">Login</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Automated Threat Detection</h1>
+        <p>A proactive Security Orchestration, Automation, and Response (SOAR) solution designed to bridge the gap between detection and response[cite: 39, 40].</p>
+        <a href="register.html" class="btn-main">Create Secure Account</a>
+    </div>
+
+    <div id="features" class="grid">
+        <div class="card">
+            <h3>Real-Time Monitoring</h3>
+            <p>Using <b>Watchdog</b> library for zero-latency detection of log modifications[cite: 50, 82].</p>
+        </div>
+        <div class="card">
+            <h3>Threat Intelligence</h3>
+            <p>Integrated with <b>VirusTotal API</b> to validate file hashes against 70+ engines[cite: 51, 85].</p>
+        </div>
+        <div class="card" style="border-color: var(--neon-red);">
+            <h3>Rapid Response</h3>
+            <p>Reducing <b>MTTR</b> from hours to under 5 seconds via Slack Webhooks[cite: 55, 56].</p>
+        </div>
+    </div>
+
+    <div id="tech" class="grid" style="background: rgba(0,0,0,0.3);">
+        <div class="card">
+            <h3>Language</h3>
+            <p>Python 3.10+ [cite: 210]</p>
+        </div>
+        <div class="card">
+            <h3>Database</h3>
+            <p>SQLite (soc_audit.db) [cite: 57, 219]</p>
+        </div>
+        <div class="card">
+            <h3>Framework</h3>
+            <p>Flask & Agile SDLC [cite: 173, 256]</p>
+        </div>
+    </div>
+
+    <footer>
+        <p style="color: var(--neon-blue); font-family: 'Orbitron', sans-serif;">BBD UNIVERSITY | Dept of Cyber Security & Forensics [cite: 11, 16]</p>
+        <p style="font-size: 12px; color: #8892b0; margin-top: 10px;">Developed by: RAVI YADAV [1230264107] & MUKESH [cite: 14]</p>
+    </footer>
+
+</body>
+</html>

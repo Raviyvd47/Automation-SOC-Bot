@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC Bot | Professional Access</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            /* Aapka original background with extra dark overlay */
+            background: linear-gradient(rgba(2, 12, 27, 0.85), rgba(2, 12, 27, 0.9)),
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 400px;
+            padding: 40px;
+            /* Combined Glassmorphism: Aapka design + Cyber Blur */
+            background: rgba(16, 33, 62, 0.7);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.15);
+            text-align: center;
+            color: white;
+            transition: 0.4s;
+        }
+
+        .login-container:hover {
+            border-color: #00f5ff;
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.25);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #00f5ff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px #00f5ff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #8892b0;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 12px;
+            color: #00f5ff;
+            margin-left: 5px;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            background: rgba(10, 25, 47, 0.6);
+            border: 1px solid rgba(0, 245, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #00f5ff;
+            background: rgba(10, 25, 47, 0.9);
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
+        }
+
+        /* Aapka original Gradient Button with extra glow */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            background: linear-gradient(90deg, #00f5ff, #0072ff);
+            color: white;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 245, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #8892b0;
+        }
+
+        .footer-text span {
+            color: #e94560; /* Alert Red for Cyber Security touch */
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <div class="logo">⚡ SOC BOT</div>
+        <div class="subtitle">Secure Terminal Access</div>
+        
+        <form>
+            <div class="input-group">
+                <label>Personnel ID</label>
+                <input type="text" placeholder="Enter Your ID" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Security Key</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit">Initialize Session</button>
+        </form>
+          <div class="footer-text">
+    © 2026 SOC Bot. All Rights Reserved.
+</div>
+    </div>
+
+</body>
+</html>
