@@ -49,11 +49,14 @@
             letter-spacing: 2px;
         }
 
-        .input-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
+        /* Flash Messages */
+        .flash-msg {
+            padding: 10px 15px; border-radius: 8px; margin-bottom: 15px;
+            font-family: 'Share Tech Mono', monospace; font-size: 12px;
+            border-left: 3px solid; text-align: left;
         }
+        .flash-success { background: rgba(0, 255, 127, 0.1); border-color: #00ff7f; color: #00ff7f; }
+        .flash-error { background: rgba(255, 0, 60, 0.1); border-color: #ff003c; color: #ff003c; }
 
         .input-group {
             margin-bottom: 15px;
@@ -130,22 +133,20 @@
     <div class="register-container">
         <div class="logo">⚡ SOC BOT</div>
         <div class="subtitle">Create secure account</div>
-        
-        <form action="/register" method="POST">
-            <div class="input-row">
-                <div class="input-group">
-                    <label>First Name</label>
-                    <input type="text" name="firstname" placeholder="Ravi" required>
-                </div>
-                <div class="input-group">
-                    <label>Last Name</label>
-                    <input type="text" name="lastname" placeholder="Yadav" required>
-                </div>
-            </div>
 
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form action="{{ url_for('register') }}" method="POST">
             <div class="input-group full-width">
-                <label>Username</label>
-                <input type="text" name="username" placeholder="ravi107" required>
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Ravi Yadav" required>
             </div>
 
             <div class="input-group full-width">
@@ -163,11 +164,11 @@
                 <input type="password" name="confirm_password" placeholder="••••••••" required>
             </div>
 
-            <button type="submit">create account</button>
+            <button type="submit">Create Account</button>
         </form>
 
         <div class="footer-links">
-            Already authorized? <a href="login.html">Login here</a>
+            Already authorized? <a href="{{ url_for('login') }}">Login here</a>
         </div>
     </div>
 

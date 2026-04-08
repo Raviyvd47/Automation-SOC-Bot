@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC Bot | Forensic Audit Logs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon-blue: #00f5ff; --neon-red: #ff003c; --neon-green: #00ff7f; --bg-dark: #020c1b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; display: flex; height: 100vh; }
+        
+        .sidebar {
+            width: 260px; background: rgba(10, 25, 47, 1);
+            border-right: 1px solid rgba(0, 245, 255, 0.2); padding: 30px 20px;
+            display: flex; flex-direction: column;
+        }
+        .nav-item {
+            padding: 15px; color: #8892b0; text-decoration: none; display: block;
+            font-family: 'Orbitron', sans-serif; font-size: 13px; transition: 0.3s;
+            border-radius: 8px; margin-bottom: 10px;
+        }
+        .nav-item.active, .nav-item:hover { background: rgba(0, 245, 255, 0.1); color: var(--neon-blue); }
+        .nav-item.danger { border: 1px solid var(--neon-red); color: var(--neon-red); margin-top: auto; }
+        .nav-item.danger:hover { background: rgba(255, 0, 60, 0.15); }
+
+        .content { flex: 1; padding: 40px; overflow-y: auto; background: #020c1b; }
+        .log-header { margin-bottom: 30px; border-bottom: 1px solid rgba(0, 245, 255, 0.2); padding-bottom: 15px; }
+        
+        /* Log Entry Style */
+        .log-list { display: flex; flex-direction: column; gap: 10px; }
+        .log-item {
+            background: rgba(16, 33, 62, 0.5); padding: 15px 25px; border-radius: 8px;
+            border-left: 4px solid var(--neon-blue); display: grid;
+            grid-template-columns: 150px 150px 1fr 100px 100px; align-items: center;
+            font-family: 'Share Tech Mono', monospace; font-size: 13px;
+            transition: background 0.2s;
+        }
+        .log-item:hover { background: rgba(16, 33, 62, 0.8); }
+        .log-item.danger { border-left-color: var(--neon-red); background: rgba(255, 0, 60, 0.05); }
+        .hash-code { color: #8892b0; }
+        .score { font-weight: bold; }
+        .empty-state { text-align: center; padding: 40px; color: #8892b0; font-style: italic; }
+
+        /* Stats bar */
+        .log-stats {
+            display: flex; gap: 20px; margin-bottom: 25px;
+        }
+        .log-stat {
+            background: rgba(16, 33, 62, 0.5); padding: 10px 20px; border-radius: 8px;
+            font-family: 'Share Tech Mono', monospace; font-size: 13px;
+            border: 1px solid rgba(0, 245, 255, 0.1);
+        }
+        .log-stat span { color: var(--neon-blue); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div style="font-family: 'Orbitron'; color: var(--neon-blue); font-size: 20px; margin-bottom: 40px; text-shadow: 0 0 10px var(--neon-blue);">⚡ SOC BOT</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">Dashboard</a>
+        <a href="{{ url_for('logs') }}" class="nav-item active">Audit Logs</a>
+        <a href="{{ url_for('logout') }}" class="nav-item danger">Terminate Session</a>
+    </div>
+
+    <div class="content">
+        <div class="log-header">
+            <h1 style="font-family: 'Orbitron', sans-serif; color: var(--neon-blue);">Forensic Audit Trail</h1>
+            <p style="color: #8892b0; font-size: 13px; margin-top: 5px;">Secure history from soc_audit.db</p>
+        </div>
+
+        <div class="log-stats">
+            <div class="log-stat">Total Entries: <span>{{ logs|length }}</span></div>
+        </div>
+
+        <div class="log-list">
+            {% if logs %}
+                {% for log in logs %}
+                <div class="log-item {{ 'danger' if log.threat_score > 0 }}">
+                    <span style="color: var(--neon-blue);">[{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}]</span>
+                    <span style="color: #ccd6f6;">{{ log.file_name or 'N/A' }}</span>
+                    <span class="hash-code">{{ log.file_hash }}</span>
+                    <span class="score" style="color: {{ '#ff003c' if log.threat_score > 0 else '#00ffa6' }};">{{ log.threat_score }}/70</span>
+                    <span style="text-align: right; color: {{ '#ff003c' if log.status == 'THREAT' else '#00ffa6' }};">{{ log.status }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">No audit logs recorded yet. Perform a scan to see entries here.</div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

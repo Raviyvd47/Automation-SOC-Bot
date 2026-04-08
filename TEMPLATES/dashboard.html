@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC Bot | Operational Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon-blue: #00f5ff; --neon-red: #ff003c; --neon-green: #00ff7f; --bg-dark: #020c1b; --glass: rgba(16, 33, 62, 0.8); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(2, 12, 27, 0.95), rgba(2, 12, 27, 0.98)),
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover; color: white; display: flex; height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px; background: rgba(10, 25, 47, 1);
+            border-right: 1px solid rgba(0, 245, 255, 0.2); padding: 30px 20px;
+            display: flex; flex-direction: column;
+        }
+        .nav-item {
+            padding: 15px; color: #8892b0; text-decoration: none; display: block;
+            font-family: 'Orbitron', sans-serif; font-size: 13px; transition: 0.3s;
+            border-radius: 8px; margin-bottom: 10px;
+        }
+        .nav-item.active, .nav-item:hover { background: rgba(0, 245, 255, 0.1); color: var(--neon-blue); }
+        .nav-item.danger { border: 1px solid var(--neon-red); color: var(--neon-red); margin-top: auto; }
+        .nav-item.danger:hover { background: rgba(255, 0, 60, 0.15); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .status-badge { background: rgba(0, 255, 127, 0.1); color: #00ff7f; padding: 5px 15px; border-radius: 20px; font-size: 12px; border: 1px solid #00ff7f; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        /* Flash Messages */
+        .flash-msg {
+            padding: 12px 20px; border-radius: 10px; margin-bottom: 15px;
+            font-family: 'Share Tech Mono', monospace; font-size: 13px;
+            border-left: 4px solid; animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .flash-success { background: rgba(0, 255, 127, 0.1); border-color: var(--neon-green); color: var(--neon-green); }
+        .flash-error { background: rgba(255, 0, 60, 0.1); border-color: var(--neon-red); color: var(--neon-red); }
+        .flash-warning { background: rgba(255, 165, 0, 0.1); border-color: #ffa500; color: #ffa500; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-card {
+            background: var(--glass); padding: 25px; border-radius: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.1); text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1); }
+        .stat-card h2 { font-family: 'Share Tech Mono', monospace; font-size: 32px; color: var(--neon-blue); }
+        .stat-card p { font-size: 12px; text-transform: uppercase; color: #8892b0; margin-top: 5px; }
+
+        /* Scan Section */
+        .scan-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+        .scan-card {
+            background: var(--glass); padding: 25px; border-radius: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.15);
+        }
+        .scan-card h3 { font-family: 'Orbitron', sans-serif; font-size: 14px; color: var(--neon-blue); margin-bottom: 15px; }
+        .scan-form { display: flex; gap: 10px; }
+        .scan-input {
+            flex: 1; padding: 12px; background: rgba(10, 25, 47, 0.6);
+            border: 1px solid rgba(0, 245, 255, 0.2); border-radius: 8px;
+            color: white; font-family: 'Share Tech Mono', monospace; font-size: 13px; outline: none;
+            transition: 0.3s;
+        }
+        .scan-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 245, 255, 0.2); }
+        .scan-btn {
+            padding: 12px 25px; background: linear-gradient(90deg, #00f5ff, #0072ff);
+            border: none; border-radius: 8px; color: white; font-family: 'Orbitron', sans-serif;
+            font-size: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-weight: 600;
+        }
+        .scan-btn:hover { box-shadow: 0 0 20px rgba(0, 245, 255, 0.5); transform: translateY(-2px); }
+
+        /* File Upload */
+        .upload-area {
+            border: 2px dashed rgba(0, 245, 255, 0.3); border-radius: 10px;
+            padding: 20px; text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .upload-area:hover { border-color: var(--neon-blue); background: rgba(0, 245, 255, 0.05); }
+        .upload-area input[type="file"] { display: none; }
+        .upload-label { color: #8892b0; font-size: 13px; cursor: pointer; display: block; }
+        .upload-label span { color: var(--neon-blue); text-decoration: underline; }
+        .file-name-display { color: var(--neon-blue); font-family: 'Share Tech Mono', monospace; font-size: 12px; margin-top: 8px; }
+
+        /* Logs Table */
+        .table-container { background: var(--glass); border-radius: 15px; border: 1px solid rgba(0, 245, 255, 0.1); padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; padding: 15px; color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 11px; border-bottom: 1px solid rgba(0, 245, 255, 0.1); text-transform: uppercase; }
+        td { padding: 15px; font-size: 13px; font-family: 'Share Tech Mono', monospace; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .threat-high { color: var(--neon-red); font-weight: bold; }
+        .threat-low { color: var(--neon-green); }
+        .status-threat { color: var(--neon-red); font-weight: bold; }
+        .status-clean { color: var(--neon-green); }
+        .empty-state { text-align: center; padding: 40px; color: #8892b0; font-style: italic; }
+
+        tr { transition: background 0.2s; }
+        tr:hover { background: rgba(0, 245, 255, 0.03); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div style="font-family: 'Orbitron'; color: var(--neon-blue); font-size: 20px; margin-bottom: 40px; text-shadow: 0 0 10px var(--neon-blue);">⚡ SOC BOT</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item active">Dashboard</a>
+        <a href="{{ url_for('logs') }}" class="nav-item">Audit Logs</a>
+        <a href="{{ url_for('logout') }}" class="nav-item danger">Terminate Session</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h1 style="font-family: 'Orbitron'; font-size: 24px;">Security Operations Center</h1>
+                <p style="color: #8892b0; font-size: 14px;">Welcome, <strong style="color: var(--neon-blue);">{{ user_name }}</strong></p>
+            </div>
+            <div class="status-badge">⚡ SYSTEM ACTIVE</div>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Stats Grid — Real DB Data -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2>{{ total }}</h2>
+                <p>Total Scans</p>
+            </div>
+            <div class="stat-card">
+                <h2 style="color: var(--neon-red);">{{ threats }}</h2>
+                <p>Threats Detected</p>
+            </div>
+            <div class="stat-card">
+                <h2 style="color: var(--neon-green);">{{ clean }}</h2>
+                <p>Clean Files</p>
+            </div>
+            <div class="stat-card">
+                <h2>{% if total > 0 %}{{ "%.1f"|format((clean / total) * 100) }}%{% else %}100%{% endif %}</h2>
+                <p>System Integrity</p>
+            </div>
+        </div>
+
+        <!-- Scan Section -->
+        <div class="scan-section">
+            <!-- Hash Scan -->
+            <div class="scan-card">
+                <h3>🔍 Scan by Hash</h3>
+                <form action="{{ url_for('scan_hash') }}" method="POST" class="scan-form">
+                    <input type="text" name="file_hash" class="scan-input" placeholder="Enter SHA-256 / MD5 / SHA-1 hash..." required>
+                    <button type="submit" class="scan-btn">Scan</button>
+                </form>
+            </div>
+
+            <!-- File Upload Scan -->
+            <div class="scan-card">
+                <h3>📁 Upload & Scan File</h3>
+                <form action="{{ url_for('upload_scan') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="upload-area" onclick="document.getElementById('fileInput').click();">
+                        <label class="upload-label">
+                            Drag or <span>browse</span> to upload
+                        </label>
+                        <input type="file" name="scan_file" id="fileInput" onchange="showFileName(this)" required>
+                        <div id="fileName" class="file-name-display"></div>
+                    </div>
+                    <button type="submit" class="scan-btn" style="width: 100%; margin-top: 12px;">Upload & Analyze</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Recent Threat Intelligence Table -->
+        <div class="table-container">
+            <h3 style="font-family: 'Orbitron'; font-size: 16px; margin-bottom: 15px;">Recent Threat Intelligence</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>File</th>
+                        <th>Hash</th>
+                        <th>VT Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if alerts %}
+                        {% for alert in alerts %}
+                        <tr>
+                            <td>{{ alert.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ alert.file_name or 'N/A' }}</td>
+                            <td>{{ alert.file_hash[:20] }}...</td>
+                            <td class="{{ 'threat-high' if alert.threat_score > 0 else 'threat-low' }}">{{ alert.threat_score }} / 70</td>
+                            <td class="{{ 'status-threat' if alert.status == 'THREAT' else 'status-clean' }}">{{ alert.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="5" class="empty-state">No scans yet. Submit a hash or upload a file to begin.</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function showFileName(input) {
+            const display = document.getElementById('fileName');
+            if (input.files.length > 0) {
+                display.textContent = '📎 ' + input.files[0].name;
+            }
+        }
+
+        // Auto-dismiss flash messages after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.flash-msg').forEach(el => {
+                el.style.transition = 'opacity 0.5s';
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 500);
+            });
+        }, 5000);
+    </script>
+
+</body>
+</html>

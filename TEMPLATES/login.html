@@ -15,7 +15,6 @@
             justify-content: center;
             align-items: center;
             font-family: 'Inter', sans-serif;
-            /* Aapka original background with extra dark overlay */
             background: linear-gradient(rgba(2, 12, 27, 0.85), rgba(2, 12, 27, 0.9)),
                         url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
             background-size: cover;
@@ -26,7 +25,6 @@
         .login-container {
             width: 400px;
             padding: 40px;
-            /* Combined Glassmorphism: Aapka design + Cyber Blur */
             background: rgba(16, 33, 62, 0.7);
             backdrop-filter: blur(15px);
             border-radius: 20px;
@@ -60,6 +58,15 @@
             letter-spacing: 1px;
         }
 
+        /* Flash Messages */
+        .flash-msg {
+            padding: 10px 15px; border-radius: 8px; margin-bottom: 15px;
+            font-family: 'Share Tech Mono', monospace; font-size: 12px;
+            border-left: 3px solid; text-align: left;
+        }
+        .flash-success { background: rgba(0, 255, 127, 0.1); border-color: #00ff7f; color: #00ff7f; }
+        .flash-error { background: rgba(255, 0, 60, 0.1); border-color: #ff003c; color: #ff003c; }
+
         .input-group {
             margin-bottom: 20px;
             text-align: left;
@@ -91,7 +98,6 @@
             box-shadow: 0 0 15px rgba(0, 245, 255, 0.3);
         }
 
-        /* Aapka original Gradient Button with extra glow */
         button {
             width: 100%;
             padding: 14px;
@@ -120,9 +126,9 @@
             color: #8892b0;
         }
 
-        .footer-text span {
-            color: #e94560; /* Alert Red for Cyber Security touch */
-            font-weight: bold;
+        .footer-text a {
+            color: #00f5ff;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -132,23 +138,34 @@
     <div class="login-container">
         <div class="logo">⚡ SOC BOT</div>
         <div class="subtitle">Secure Terminal Access</div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         
-        <form>
+        <form action="{{ url_for('login') }}" method="POST">
             <div class="input-group">
-                <label>Personnel ID</label>
-                <input type="text" placeholder="Enter Your ID" required>
+                <label>Personnel Email</label>
+                <input type="email" name="email" placeholder="agent@bbdu.ac.in" required>
             </div>
             
             <div class="input-group">
                 <label>Security Key</label>
-                <input type="password" placeholder="••••••••" required>
+                <input type="password" name="password" placeholder="••••••••" required>
             </div>
 
             <button type="submit">Initialize Session</button>
         </form>
-          <div class="footer-text">
-    © 2026 SOC Bot. All Rights Reserved.
-</div>
+
+        <div class="footer-text">
+            New Agent? <a href="{{ url_for('register') }}">Register here</a>
+            <br><br>© 2026 SOC Bot. All Rights Reserved.
+        </div>
     </div>
 
 </body>
