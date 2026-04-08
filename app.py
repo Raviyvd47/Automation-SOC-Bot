@@ -8,6 +8,7 @@ from functools import wraps
 from datetime import datetime
 from scanner import check_file_threat       # Module 11: VirusTotal Logic
 from notification import send_slack_alert   # Module 14: Slack Notification
+from api import api_bp                      # REST API Blueprint
 
 app = Flask(__name__, template_folder='TEMPLATES')
 
@@ -41,6 +42,22 @@ class ThreatLog(db.Model):
 
 with app.app_context():
     db.create_all()
+
+# --- REGISTER API BLUEPRINT ---
+app.register_blueprint(api_bp)
+
+# --- JSON ERROR HANDLERS FOR API ROUTES ---
+@app.errorhandler(404)
+def not_found(e):
+    if request.path.startswith('/api/'):
+        return {"success": False, "error": "Endpoint not found"}, 404
+    return render_template('index.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    if request.path.startswith('/api/'):
+        return {"success": False, "error": "Internal server error"}, 500
+    return render_template('index.html'), 500
 
 # --- HELPER ---
 
