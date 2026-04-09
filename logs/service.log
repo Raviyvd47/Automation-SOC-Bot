@@ -1,0 +1,8 @@
+2026-04-09 16:16:31,195 [INFO] Started worker thread: ScanWorker-1
+2026-04-09 16:16:31,196 [INFO] Started worker thread: ScanWorker-2
+2026-04-09 16:16:31,237 [INFO] Started worker thread: ScanWorker-3
+2026-04-09 16:16:31,252 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6000
+ * Running on http://192.168.18.45:6000
+2026-04-09 16:16:31,252 [INFO] [33mPress CTRL+C to quit[0m

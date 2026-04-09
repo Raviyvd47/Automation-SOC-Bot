@@ -39,6 +39,7 @@ class ThreatLog(db.Model):
     file_hash = db.Column(db.String(100), nullable=False) # file_hash [cite: 310]
     threat_score = db.Column(db.Integer)                   # threat_score [cite: 312]
     status = db.Column(db.String(50))                      # status [cite: 314]
+    scan_type = db.Column(db.String(20), default="hash")   # hash, ip, or url
 
 with app.app_context():
     db.create_all()
